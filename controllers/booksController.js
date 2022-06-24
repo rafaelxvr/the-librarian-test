@@ -103,14 +103,15 @@ async function addBook(req, res, isbn) {
        } else {
         const body = await getPostData(req)
 
-        const { copies } = JSON.parse(body)
+        const { copies, available } = JSON.parse(body)
 
         const bookData = {
-            copies : copies || book.copies
+            copies : copies || book.copies,
+            available : available || book.available
         }
-
+        console.log(bookData)
         const updBook = await Book.add(isbn, bookData)
-
+        
         res.writeHead(200, { 'Content-Type' : 'application/json' })
         return res.end(JSON.stringify(updBook)) 
        }

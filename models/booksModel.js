@@ -55,14 +55,25 @@ function refund(isbn, book) {
 }
 
 function add(isbn, book) {
-    return new Promise((resolve, reject) => {
-        const index = books.findIndex((p) => p.isbn === isbn)
-        books[index].copies = books[index].copies + book
-        books[index].available = books[index].available + book
-        books[index].isbn = isbn
-        writeDataToFile('./data/books.json', books)
-        resolve(books[index])
-    })
+    if (typeof(book) === 'object') {
+        return new Promise((resolve, reject) => {
+            const index = books.findIndex((p) => p.isbn === isbn)
+            books[index].copies = books[index].copies + book.copies
+            books[index].available = books[index].available + book.available
+            books[index].isbn = isbn
+            writeDataToFile('./data/books.json', books)
+            resolve(books[index])
+        })
+    } else {
+        return new Promise((resolve, reject) => {
+            const index = books.findIndex((p) => p.isbn === isbn)
+            books[index].copies = books[index].copies + book
+            books[index].available = books[index].available + book
+            books[index].isbn = isbn
+            writeDataToFile('./data/books.json', books)
+            resolve(books[index])
+        })
+    }
 }
 
 
